@@ -45,7 +45,7 @@ const Header = () => {
         }
 
         axios.get(
-          "http://localhost:8080/youtubeContent/",        
+          "http://3.34.171.86/youtubeContent/",        
           { headers: { 
                             "Content-Type": "application/json",
                             },
