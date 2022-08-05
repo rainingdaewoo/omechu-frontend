@@ -10,7 +10,7 @@ const LoginForm = () => {
     return (
         <div>
             <h1>카카오 로그인으로 이용이 가능합니다!! :)</h1>
-            <a href="http://localhost:8080/oauth2/authorization/kakao">
+            <a href="http://localhost:5000/oauth2/authorization/kakao">
                 <img 
                     src="/kakao_login_medium_narrow.png" 
                     alt="kakaoLogin" 

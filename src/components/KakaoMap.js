@@ -13,7 +13,7 @@ const KakaoMap = () => {
     useEffect(() => {
         
         axios.get(
-          "http://3.34.171.86/youtubeContent/",        
+          "http://localhost:5000/youtubeContent/",        
           { headers: { 
                             "Content-Type": "application/json",
                             },

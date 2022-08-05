@@ -35,7 +35,7 @@ const WriteFromKakaoMap = (props) => {
         e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
         
         console.log(boardFromYoutube);
-        axios.post("http://localhost:8080/youtubeContent/", JSON.stringify(boardFromYoutube), { 
+        axios.post("http://localhost:5000/youtubeContent/", JSON.stringify(boardFromYoutube), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",

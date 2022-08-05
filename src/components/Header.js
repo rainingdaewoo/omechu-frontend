@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Form, FormControl, Navbar, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Form, FormControl, Navbar, Offcanvas, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import youtuberData from '../data/youtuberData';
@@ -45,7 +45,7 @@ const Header = () => {
         }
 
         axios.get(
-          "http://3.34.171.86/youtubeContent/",        
+          "http://localhost:5000/youtubeContent/",        
           { headers: { 
                             "Content-Type": "application/json",
                             },
@@ -68,31 +68,31 @@ const Header = () => {
   return (
     <>
     <Navbar key="false" bg="dark"  variant="dark" expand="false" className="mb-3">
-      <Container fluid>      
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-false`} /> 
-          <Link to="/" className="navbar-brand">
-              omechu
-          </Link>
-          &nbsp;   &nbsp;   &nbsp;   &nbsp;&nbsp;   &nbsp; &nbsp;   &nbsp;
-          &nbsp;   &nbsp;    &nbsp;   &nbsp; &nbsp;   &nbsp; &nbsp;   &nbsp;
-          &nbsp; &nbsp;   &nbsp;  &nbsp; &nbsp;   &nbsp;  &nbsp; &nbsp;   &nbsp;
-
-            <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-false`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-false`}
-              placement="start"
-              scroll = {true}
-              backdrop= {false}
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-false`}>
-                  유튜버 목록
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                {youtuberData.map((youtuberData, idx) => {
-                  return (
-                  <ul>
+      <Container fluid>
+        <div>
+          <Navbar.Toggle className="float-leftr" aria-controls={`offcanvasNavbar-expand-false`} /> 
+          <Navbar.Brand>
+            <Link to="/" className="navbar-brand float-right">
+                Omechu
+            </Link>
+          </Navbar.Brand>
+        </div>
+        <Navbar.Offcanvas
+          id={`offcanvasNavbar-expand-false`}
+          aria-labelledby={`offcanvasNavbarLabel-expand-false`}
+          placement="start"
+          scroll = {true}
+          backdrop= {false}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-false`}>
+              유튜버 목록
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+            <Offcanvas.Body>
+              {youtuberData.map((youtuberData, idx) => {
+                 return (
+                   <ul>
                     <li key={youtuberData.id}>
                       <a>
                         <img 
@@ -106,9 +106,11 @@ const Header = () => {
                 })
                 
                 }
-                
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+          
+
+            
               <Form className="d-flex">
                 <select
                   className="me-1"
@@ -135,18 +137,14 @@ const Header = () => {
                 <Button variant="outline-success" onClick={search}>Search</Button>
 
               </Form>
-            &nbsp;   &nbsp;   &nbsp;   &nbsp;&nbsp;   &nbsp; &nbsp;   &nbsp;
-            &nbsp;   &nbsp;    &nbsp;   &nbsp; &nbsp;   &nbsp; &nbsp;   &nbsp;
-            &nbsp;   &nbsp;    &nbsp;   &nbsp; &nbsp;   &nbsp; &nbsp;   &nbsp;
-            
-            
+          <div>             
             { loginCheck ? 
-                (<Link to="/myPage" className="nav-link" onClick={goMypage} style={{ color: "white" }}>내 정보</Link>) 
+                (<Link to="/myPage" className="nav-link" onClick={goMypage} style={{ color: "white", float: "left" }}>내 정보</Link>) 
                 : 
-                (<Link to="/loginForm" className="nav-link" style={{ color: "white" }}>로그인</Link>)
+                (<Link to="/loginForm" className="nav-link" style={{ color: "white", float: "left" }}>로그인</Link>)
             }
-            <Link to="/writeFromKakaoMap" className="nav-link" style={{ color: "white" }}>맛집 추가</Link>
-          
+            <Link to="/writeFromKakaoMap" className="nav-link" style={{ color: "white", float: "right" }}>맛집 추가</Link>
+          </div>  
           </Container>
         </Navbar>
       <br />

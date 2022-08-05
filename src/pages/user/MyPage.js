@@ -15,7 +15,7 @@ const MyPage = () => {
         const token = jwt_decode (localStorage.getItem("token"));
         //console.log("teste4st", localStorage.getItem("token"));
         axios.get(
-            "http://localhost:8080/user/" + token.id,
+            "http://localhost:5000/user/" + token.id,
             { headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                 "Content-Type": "application/json",
