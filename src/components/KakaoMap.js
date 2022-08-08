@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import axios from 'axios';
+import httpAddress from '../data/httpAddress';
 
 const { kakao } = window;
 
@@ -13,7 +14,7 @@ const KakaoMap = () => {
     useEffect(() => {
         
         axios.get(
-          "http://localhost:5000/youtubeContent/",        
+            "http://" + httpAddress + "/youtubeContent/",        
           { headers: { 
                             "Content-Type": "application/json",
                             },
@@ -77,21 +78,17 @@ const KakaoMap = () => {
                     // 따라서 번거롭지만 다음과 같이 커스텀 오버레이를 작성해야함.
                     let content = '<div class="wrap" style="padding:0 5px;background:#fff; width:250px; height:200px;>' + 
                                     '    <div class="info">' + 
-                                    
-                                                
-                                   
                                     '        <div class="body">' + 
                                     '            <div class="desc">' + 
-                                    '                <a href=' + store.youtubeContents[0].url  + '> ' +
-                                    '                   <img style="width:220px; height:130px;" src=' +store.youtubeContents[0].imageURL +  ' />' +
+                                    '                <a href=' + store.youtubeContents[0].url  + ' target="_blank"> ' +
+                                    '                   <img style="width:220px; height:130px;" src=' +store.youtubeContents[0].imageURL +  ' target="_blank"/>' +
                                     '                </a>' +
                                     '                <br /> ' +
-                                                    store.storeName + 
+                                                        store.storeName + 
                                     '            <a href="' + store.storeNaverURL  + '" target="_blank" class="link">' +
                                     '               <img src="/btnG_아이콘사각.png" style="width:24px; height:24px;" />' +
                                     '            </a>' +
                                     '                <div class="ellipsis">' + store.address + '</div>' + 
-                                   
                                     '            </div>' + 
                                     '        </div>' + 
                                     '    </div>' +    

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode  from 'jwt-decode'
+import httpAddress from '../../data/httpAddress';
 
 
 const MyPage = () => {
@@ -13,9 +14,8 @@ const MyPage = () => {
 
     useEffect(() => {
         const token = jwt_decode (localStorage.getItem("token"));
-        //console.log("teste4st", localStorage.getItem("token"));
         axios.get(
-            "http://localhost:5000/user/" + token.id,
+            "http://" + httpAddress + "/user/" + token.id,
             { headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                 "Content-Type": "application/json",

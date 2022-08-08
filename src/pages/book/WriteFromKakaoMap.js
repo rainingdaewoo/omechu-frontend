@@ -1,41 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
 import styled from 'styled-components';
+import httpAddress from '../../data/httpAddress';
+import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 
 
 const WriteFromKakaoMap = (props) => {
 
-    let [boardFromYoutube, setBoardFromYoutube] = useState({
+    const [boardFromYoutube, setBoardFromYoutube] = useState({
         storeName: "",
+        youTuber: "",
         youtubeURL: "",
         storeNaverURL: "",
         storeAddress: "",
-        youTuber: "",
     });
 
     const [kakaoAddress, setKakaoAddress] = useState('');
 
     const changeValue = (e) => {
-        // setBoardFromYoutube({
-        //     ...boardFromYoutube,
-        //     [e.target.name]: e.target.value,
-        //     storeAddress: kakaoAddress,
-        // });
         const {name, value} = e.target;
         setBoardFromYoutube({
             ...boardFromYoutube,
             [name]: value
-        })    
-
+        });  
     }
 
     const submitContent = (e) => {
-        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
-        
-        console.log(boardFromYoutube);
-        axios.post("http://localhost:5000/youtubeContent/", JSON.stringify(boardFromYoutube), { 
+        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.   
+        let requestData = {...boardFromYoutube, 
+                           storeAddress: kakaoAddress};            
+        axios.post("http://" + httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",
@@ -53,16 +49,23 @@ const WriteFromKakaoMap = (props) => {
                 });;
     }
     
-    const handle = (data) => {
-        setKakaoAddress(data.address);
-        setBoardFromYoutube({
-            ...boardFromYoutube,
-            storeAddress: data.address
-        });
-        
-        console.log(boardFromYoutube);
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
 
+        if (data.addressType === 'R') {
+        if (data.bname !== '') {
+            extraAddress += data.bname;
+        }
+        if (data.buildingName !== '') {
+            extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+        }
+        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+        }
+
+        setKakaoAddress(fullAddress);          // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     };
+
 
     return (
         <div>
@@ -84,24 +87,36 @@ const WriteFromKakaoMap = (props) => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>영상 링크</Form.Label>
-                    <Form.Control  type="text" placeholder="유튜브 링크(ex, https://www.youtube.com/watch?...)" onChange={changeValue} name="youtubeURL"/>
+                    <Form.Control  type="text" 
+                                   placeholder="유튜브 링크(ex, https://www.youtube.com/watch?...)" 
+                                   onChange={changeValue} 
+                                   name="youtubeURL"/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>가게 링크(네이버)</Form.Label>
-                    <Form.Control  type="text" placeholder="네이버 링크(ex, https://www.youtube.com/watch?...)" onChange={changeValue} name="storeNaverURL"/>
+                    <Form.Control  type="text" 
+                                   placeholder="네이버 링크(ex, https://map.naver.com/...)" 
+                                   onChange={changeValue} 
+                                   name="storeNaverURL"/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>가게 주소(아래에서 주소를 검색해주세요.)</Form.Label>
-                    <Form.Control type="text" placeholder="가게 주소" onChange={changeValue} value={kakaoAddress || ""} readOnly/>
+                    <Form.Control type="text" 
+                                  placeholder="가게 주소" 
+                                  onChange={changeValue} 
+                                  value={kakaoAddress}
+                                  name="storeAddress" 
+                                  readOnly />
                 </Form.Group>
 
                 <Div>
-                <DaumPostcode 
-                    onComplete={handle}       // 값 선택 시 실행되는 이벤트
-                    autoClose={false}                       // 값 선택 시 자동 닫힘 설정
-                />
+                    <DaumPostcode 
+                        onComplete={handleComplete}                     // 값 선택 시 실행되는 이벤트
+                        autoClose={false}                               // 값 선택 시 자동 닫힘 설정
+                        {...props}                       
+                    />
                 </Div>
                 
                 <Button variant="primary" type="submit">
