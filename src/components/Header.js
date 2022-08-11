@@ -62,8 +62,9 @@ const Header = () => {
         }
 
         axios.get(
-          "http://" + httpAddress + "/youtubeContent/",        
+          "http://" + httpAddress + "/stores/",        
           { headers: { 
+            Authorization: "Bearer " + localStorage.getItem("token"),
                             "Content-Type": "application/json",
                             },
             })
@@ -160,9 +161,13 @@ const Header = () => {
                        className="nav-link" 
                        style= {{ color: "white", float: "left" }}>로그인</Link>)
             }
+             <Link to="/ListYoutubeContent" 
+                  className="nav-link" 
+                  style={{ color: "white", float: "right" }}>게시글 리스트</Link>      
             <Link to="/writeFromKakaoMap" 
                   className="nav-link" 
                   style={{ color: "white", float: "right" }}>맛집 추가</Link>
+           
           </div>  
           </Container>
         </Navbar>

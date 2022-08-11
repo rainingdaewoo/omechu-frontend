@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import DaumPostcode from 'react-daum-postcode';
-import styled from 'styled-components';
 import httpAddress from '../../data/httpAddress';
-import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
+import styled from 'styled-components';
 
-
-const WriteFromKakaoMap = (props) => {
+const UpdateForm = (props) => {
+    const propsParam = useParams();
+    const id = propsParam.id;
 
     const [boardFromYoutube, setBoardFromYoutube] = useState({
         storeName: "",
@@ -15,9 +16,45 @@ const WriteFromKakaoMap = (props) => {
         youtubeURL: "",
         storeNaverURL: "",
         storeAddress: "",
+        youtubeContentId: "",
     });
-
+    const [store, setStore] = useState([]);
+    const [youtubeContents, setYoutubeContents] = useState([]);
     const [kakaoAddress, setKakaoAddress] = useState('');
+
+    useEffect( () => {
+
+        axios.get(
+            "http://" + httpAddress + "/store/" + id,        
+            { headers: { 
+                Authorization: "Bearer " + localStorage.getItem("token"),
+                                "Content-Type": "application/json",
+                                },
+                })
+        .then( (result) => {
+            let storeName = result.data.storeName;
+            let youTuber = result.data.youtubeContents[0].youtuber;
+            let youtubeURL = result.data.youtubeContents[0].url;
+            let storeNaverURL = result.data.storeNaverURL;
+            let storeAddress = result.data.address;
+            let youtubeContentId = result.data.youtubeContents[0].id;
+            setKakaoAddress(storeAddress); 
+
+            setBoardFromYoutube({
+                storeName: storeName,
+                youTuber: youTuber,
+                youtubeURL: youtubeURL,
+                storeNaverURL: storeNaverURL,
+                storeAddress: storeAddress,
+                youtubeContentId: youtubeContentId,
+            });
+            
+        })
+        .catch( (error) => {
+            console.log("fail");
+            console.log( error );
+        });
+    }, [])
 
     const changeValue = (e) => {
         const {name, value} = e.target;
@@ -27,28 +64,33 @@ const WriteFromKakaoMap = (props) => {
         });  
     }
 
-    const submitContent = (e) => {
-        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.   
+    const updateContent = (e) => {
+        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
+        console.log("test");
         let requestData = {...boardFromYoutube, 
-                           storeAddress: kakaoAddress};            
-        axios.post("http://" + httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
+            storeAddress: kakaoAddress};
+        console.log(requestData);    
+        axios.patch("http://" + httpAddress + "/store/" + id, JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",
             },
             })
-                .then( (result) => {
+            .then( (result) => {
                     console.log(result);
                     window.location.href = "/";
-                })
-                .catch( (error) => {
-                    console.log(error);
-                    if( error.response.data.message === "잘못된 요청입니다."){
-                        alert("필수 값이 빠졌습니다. 다시 확인해주세요.");
-                    }
-                });;
+            })
+            .catch( (error) => {
+                console.log(error);
+                if( error.response.data.message === "잘못된 요청입니다."){
+                    alert("필수 값이 빠졌습니다. 다시 확인해주세요.");
+                }
+        });;        
+
+
+
     }
-    
+
     const handleComplete = (data) => {
         let fullAddress = data.address;
         let extraAddress = '';
@@ -66,14 +108,17 @@ const WriteFromKakaoMap = (props) => {
         setKakaoAddress(fullAddress);          // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     };
 
-
     return (
         <div>
-            <h1>새로운 맛집 등록</h1>
-            <Form onSubmit={submitContent}>
+            <h1>가게 정보 변경</h1>
+            <Form onSubmit={updateContent}>
                 <Form.Group className="mb-3">
                     <Form.Label>가게 이름</Form.Label>
-                    <Form.Control  type="text" placeholder="가게 이름을 적어주세요" onChange={changeValue} name="storeName" />
+                    <Form.Control type="text" 
+                                  placeholder="가게 이름을 적어주세요" 
+                                  onChange={changeValue} 
+                                  name="storeName"
+                                  value={boardFromYoutube.storeName} />
                 </Form.Group>
 
                 <FloatingLabel className="mb-3" controlId="selectYoutuber" label="유튜버">
@@ -90,7 +135,8 @@ const WriteFromKakaoMap = (props) => {
                     <Form.Control  type="text" 
                                    placeholder="유튜브 링크(ex, https://www.youtube.com/watch?...)" 
                                    onChange={changeValue} 
-                                   name="youtubeURL"/>
+                                   name="youtubeURL"
+                                   value={boardFromYoutube.youtubeURL || ''}  />
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -98,7 +144,8 @@ const WriteFromKakaoMap = (props) => {
                     <Form.Control  type="text" 
                                    placeholder="네이버 링크(ex, https://map.naver.com/...)" 
                                    onChange={changeValue} 
-                                   name="storeNaverURL"/>
+                                   name="storeNaverURL"
+                                   value={boardFromYoutube.storeNaverURL || ''}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -123,7 +170,6 @@ const WriteFromKakaoMap = (props) => {
                     등록
                 </Button>
             </Form>
-            
         </div>
     );
 };
@@ -132,5 +178,5 @@ const Div = styled.div`
    border:1px solid silver;
    margin-bottom: 10;
 `;
-// 게시판 영상 제목, 영상 URL, 유튜버, 가게 이름, 가게 URL
-export default WriteFromKakaoMap;
+
+export default UpdateForm;

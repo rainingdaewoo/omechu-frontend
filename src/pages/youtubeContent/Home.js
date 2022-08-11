@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import KakaoMap from '../../components/KakaoMap';
 
 const Home = () => {
 
-    const [users, setUsers] = useState([]);
-
-    
-    useEffect(() => {
-        
-    }, []);
 
     return (
         <div>
