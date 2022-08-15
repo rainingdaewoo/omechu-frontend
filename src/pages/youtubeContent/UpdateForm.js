@@ -69,7 +69,7 @@ const UpdateForm = (props) => {
     }
 
     const updateContent = (e) => {
-        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
+        e.preventDefault(); 
 
         let requestData = {...boardFromYoutube, 
             storeAddress: kakaoAddress};
