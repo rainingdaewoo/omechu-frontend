@@ -17,10 +17,9 @@ const YoutubeContentDetail = (props) => {
         axios.get(
             "http://" + httpAddress + "/store/" + id,        
             { headers: { 
-                Authorization: "Bearer " + localStorage.getItem("token"),
-                                "Content-Type": "application/json",
-                                },
-                })
+                "Content-Type": "application/json",
+                },
+            })
         .then( (result) => {
             console.log(result.data);
             setStore(result.data);

@@ -31,8 +31,6 @@ const MyPage = () => {
                     window.location.replace("/");
                 } 
             });
-           
-        console.log(userDetail); 
     }, []);
 
 

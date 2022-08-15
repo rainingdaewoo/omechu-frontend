@@ -9,12 +9,12 @@ import { useDispatch } from 'react-redux';
 import { setNaverStore } from '../redux/naverStore';
 
 const CATEGORY = [
-  { id: 0, name: '카테고리', value:'' },
-  { id: 1, name: '한식', value:'koreanFood'},
-  { id: 2, name: '중식', value:'chineseFood' },
-  { id: 3, name: '일식', value:'japaneseFood' },
-  { id: 4, name: '양식', value:'westernFood' },
-  { id: 5, name: '기타', value:'etc' },
+  { id: 1, name: '카테고리', value:'' },
+  { id: 2, name: '한식', value:'koreanFood'},
+  { id: 3, name: '중식', value:'chineseFood' },
+  { id: 4, name: '일식', value:'japaneseFood' },
+  { id: 5, name: '양식', value:'westernFood' },
+  { id: 6, name: '기타', value:'etc' },
 ];
 
 const Header = () => {
@@ -52,12 +52,13 @@ const Header = () => {
     console.log(searchCategory);
    
     axios.get(
-      "https://cors-everywhere.herokuapp.com/http://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
+      "http://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
       { headers: { 
             "Content-Type": "application/json",
             },
         })
     .then( (result) => {
+      console.log(result.data);
       dispatch(setNaverStore(result.data));
     })
     .catch( (error) => {
@@ -102,10 +103,10 @@ const Header = () => {
             </Offcanvas.Title>
           </Offcanvas.Header>
             <Offcanvas.Body>
-              {youtuberData.map((youtuberData, idx) => {
+              {youtuberData.map((youtuberData) => {
                  return (
-                   <ul>
-                    <li key={youtuberData.id}>
+                   <ul key={youtuberData.id}>
+                    <li>
                       <a>
                         <img 
                           style={{ height: 24, width: 24 }} 

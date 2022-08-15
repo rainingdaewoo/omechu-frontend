@@ -97,11 +97,11 @@ const WriteFromKakaoMap = (props) => {
                                  name="category" 
                                  aria-label="Floating label select">
                         <option value=''>카테고리</option>
-                        <option value='한식'>한식</option>
-                        <option value='중식'>중식</option>
-                        <option value='일식'>일식</option>
-                        <option value='양식'>양식</option>
-                        <option value='기타'>기타</option>
+                        <option value='koreanFood'>한식</option>
+                        <option value='chineseFood'>중식</option>
+                        <option value='japaneseFood'>일식</option>
+                        <option value='westernFood'>양식</option>
+                        <option value='etc'>기타</option>
                     </Form.Select>
                 </FloatingLabel>
 
