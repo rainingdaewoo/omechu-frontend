@@ -17,8 +17,7 @@ const JoinForm = () => {
     }
 
     const submitUser = (e) => {
-        console.log("console:", e);
-        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
+        e.preventDefault(); 
         
         fetch("http://localhost:8080/user", {
             method: "POST",

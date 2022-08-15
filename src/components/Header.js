@@ -1,27 +1,27 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Form, FormControl, Navbar, Offcanvas, Nav } from 'react-bootstrap';
+import { Button, Container, Form, FormControl, Navbar, Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import youtuberData from '../data/youtuberData';
 import httpAddress from '../data/httpAddress';
+import { useDispatch } from 'react-redux';
+import { setNaverStore } from '../redux/naverStore';
 
 const CATEGORY = [
-  { id: 0, value: '카테고리' },
-  { id: 1, value: '한식' },
-  { id: 2, value: '중식' },
-  { id: 3, value: '일식' },
+  { id: 0, name: '카테고리', value:'' },
+  { id: 1, name: '한식', value:'koreanFood'},
+  { id: 2, name: '중식', value:'chineseFood' },
+  { id: 3, name: '일식', value:'japaneseFood' },
+  { id: 4, name: '양식', value:'westernFood' },
+  { id: 5, name: '기타', value:'etc' },
 ];
 
 const Header = () => {
   const [loginCheck, setLoginCheck] = useState('');
-  const [searchCategory, setSearchCategory] = useState('카테고리');
-  const [stores, setStores] = useState([]);
+  const [searchCategory, setSearchCategory] = useState('');
   const [keyword, setKeyword] = useState('');
-  const [searchRequest, setSearchRequest] = useState({
-    searchCategory: "",
-    keyword: "",
-});
+  const dispatch = useDispatch()
   
   const handleDropCategory = e => {  // onChange 이벤트가 발생한 target을 받아와 value값 할당
     const { value } = e.target;
@@ -36,46 +36,45 @@ const Header = () => {
       };
     };
 
-    const changeValue = (e) => {
-      const {name, value} = e.target;
+  const changeValue = (e) => {
       setKeyword(e.target.value);  
   }
+
+  const pressEnter = (e) => {
+    if( e.key === "Enter") {
+      search();
+      e.preventDefault();
+    }
+}
 
   const search = (e) => {
     console.log(keyword);
     console.log(searchCategory);
-     setSearchRequest({
-       searchCategory: {searchCategory},
-       keyword: {keyword}
-     });
-
-     console.log(searchRequest);
+   
+    axios.get(
+      "http://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
+      { headers: { 
+            "Content-Type": "application/json",
+            },
+        })
+    .then( (result) => {
+      dispatch(setNaverStore(result.data));
+    })
+    .catch( (error) => {
+        console.log("fail");
+        console.log( error );
+    });
   }  
 
     
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-          setLoginCheck(true);
-        } else {
-          setLoginCheck(false);
-        }
-
-        axios.get(
-          "http://" + httpAddress + "/stores/",        
-          { headers: { 
-            Authorization: "Bearer " + localStorage.getItem("token"),
-                            "Content-Type": "application/json",
-                            },
-            })
-        .then( (result) => {
-          setStores(result.data);
-        })
-        .catch( (error) => {
-            console.log("fail");
-            console.log( error );
-        });    
-      }, []);    
+      setLoginCheck(true);
+    } else {
+      setLoginCheck(false);
+    }
+  }, []);    
         
 
   return (
@@ -132,13 +131,14 @@ const Header = () => {
             style={{ width: 110, padding: 3 }}
           >
             {CATEGORY.map((category) => {
-              return <option key={category.id}> {category.value} </option>
+              return <option key={category.id} value={category.value}> {category.name} </option>
             })}
           </select>
 
           <FormControl
             type="search"
             onChange={changeValue}
+            onKeyDown={pressEnter}
             name="keyword"
             placeholder="Search"
             className="me-2"

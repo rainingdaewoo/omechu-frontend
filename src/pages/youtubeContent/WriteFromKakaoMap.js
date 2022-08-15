@@ -11,6 +11,8 @@ const WriteFromKakaoMap = (props) => {
     const [boardFromYoutube, setBoardFromYoutube] = useState({
         storeName: "",
         youTuber: "",
+        category: "",
+        hashtag: "",
         youtubeURL: "",
         storeNaverURL: "",
         storeAddress: "",
@@ -27,7 +29,7 @@ const WriteFromKakaoMap = (props) => {
     }
 
     const submitContent = (e) => {
-        e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.   
+        e.preventDefault(); 
 
         let requestData = {...boardFromYoutube, 
                            storeAddress: kakaoAddress};
@@ -35,11 +37,10 @@ const WriteFromKakaoMap = (props) => {
         axios.post("http://" + httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
-                "Content-Type": "application/json",
-            },
+                               "Content-Type": "application/json",
+                },
             })
             .then( (result) => {
-                    console.log(result);
                     window.location.href = "/";
             })
             .catch( (error) => {
@@ -55,12 +56,12 @@ const WriteFromKakaoMap = (props) => {
         let extraAddress = '';
 
         if (data.addressType === 'R') {
-        if (data.bname !== '') {
-            extraAddress += data.bname;
-        }
-        if (data.buildingName !== '') {
-            extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-        }
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+            }
         fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
         }
 
@@ -74,17 +75,43 @@ const WriteFromKakaoMap = (props) => {
             <Form onSubmit={submitContent}>
                 <Form.Group className="mb-3">
                     <Form.Label>가게 이름</Form.Label>
-                    <Form.Control  type="text" placeholder="가게 이름을 적어주세요" onChange={changeValue} name="storeName" />
+                    <Form.Control  type="text" 
+                                   placeholder="가게 이름을 적어주세요" 
+                                   onChange={changeValue} 
+                                   name="storeName" />
                 </Form.Group>
 
                 <FloatingLabel className="mb-3" controlId="selectYoutuber" label="유튜버">
-                    <Form.Select onChange={changeValue} name="youTuber" aria-label="Floating label select">
+                    <Form.Select onChange={changeValue} 
+                                 name="youTuber" 
+                                 aria-label="Floating label select">
                         <option value=''>어떤 유튜버인가요?</option>
                         <option value='성시경 SUNG SI KYUNG'>성시경 SUNG SI KYUNG</option>
                         <option value='먹보스 쭈엽이'>먹보스 쭈엽이</option>
                         <option value='김사원세끼'>김사원세끼</option>
                     </Form.Select>
                 </FloatingLabel>
+
+                <FloatingLabel className="mb-3" controlId="selectCategory" label="카테고리">
+                    <Form.Select onChange={changeValue} 
+                                 name="category" 
+                                 aria-label="Floating label select">
+                        <option value=''>카테고리</option>
+                        <option value='한식'>한식</option>
+                        <option value='중식'>중식</option>
+                        <option value='일식'>일식</option>
+                        <option value='양식'>양식</option>
+                        <option value='기타'>기타</option>
+                    </Form.Select>
+                </FloatingLabel>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>해쉬 태그</Form.Label>
+                    <Form.Control  type="text" 
+                                   placeholder="태그(메뉴명, 지역명 등을 #지역, #맛집과 같은 형식으로 구분해서 입력해주세요)" 
+                                   onChange={changeValue} 
+                                   name="hashtag"/>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>영상 링크</Form.Label>
@@ -133,5 +160,5 @@ const Div = styled.div`
    border:1px solid silver;
    margin-bottom: 10;
 `;
-// 게시판 영상 제목, 영상 URL, 유튜버, 가게 이름, 가게 URL
+
 export default WriteFromKakaoMap;

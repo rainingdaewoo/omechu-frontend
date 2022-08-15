@@ -22,7 +22,7 @@ const YoutubeContentDetail = (props) => {
                                 },
                 })
         .then( (result) => {
-            console.log(result.data.youtubeContents[0]);
+            console.log(result.data);
             setStore(result.data);
             setYoutubeContents(result.data.youtubeContents[0]);
         })
@@ -34,7 +34,27 @@ const YoutubeContentDetail = (props) => {
     }, [])
 
     const deleteUser = () => {
-        
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+
+            axios.delete(
+                "http://" + httpAddress + "/store/" + id,        
+                { headers: { 
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                                    "Content-Type": "application/json",
+                                    },
+                    })
+            .then( (result) => {
+                alert("삭제되었습니다.");
+                window.location.href = "/";
+            })
+            .catch( (error) => {
+                console.log("fail");
+                console.log( error );
+            });
+      
+          } else {
+            
+          }
     };
 
     return (
@@ -52,7 +72,6 @@ const YoutubeContentDetail = (props) => {
             <Link to={`/updateForm/${id}`}>
                 <Button>수정</Button>
             </Link>
-            
             {" "}
             <Button onClick={ deleteUser }>삭제</Button>
         </div>

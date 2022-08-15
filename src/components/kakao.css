@@ -1,0 +1,31 @@
+.customoverlay  {
+    position: relative;
+    bottom: 0px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}    
+
+.customoverlay  a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    background:#fff
+    
+}
+
+.customoverlay .title {
+    display: block;
+    text-decoration: none;
+    color: rgb(97, 90, 90);
+    text-align: center;
+    border-radius: 6px;
+    font-size: 16px;
+    overflow: hidden;
+}

@@ -13,6 +13,8 @@ const UpdateForm = (props) => {
     const [boardFromYoutube, setBoardFromYoutube] = useState({
         storeName: "",
         youTuber: "",
+        category: "",
+        hashtag: "",
         youtubeURL: "",
         storeNaverURL: "",
         storeAddress: "",
@@ -38,10 +40,14 @@ const UpdateForm = (props) => {
             let storeNaverURL = result.data.storeNaverURL;
             let storeAddress = result.data.address;
             let youtubeContentId = result.data.youtubeContents[0].id;
+            let hashtag = result.data.hashtag;
+            let category = result.data.category;
             setKakaoAddress(storeAddress); 
 
             setBoardFromYoutube({
                 storeName: storeName,
+                category: category,
+                hashtag: hashtag,
                 youTuber: youTuber,
                 youtubeURL: youtubeURL,
                 storeNaverURL: storeNaverURL,
@@ -66,9 +72,10 @@ const UpdateForm = (props) => {
 
     const updateContent = (e) => {
         e.preventDefault(); //submit이 action을 안 타고 자기 할일을 그만함.
-        console.log("test");
+
         let requestData = {...boardFromYoutube, 
             storeAddress: kakaoAddress};
+
         console.log(requestData);    
         axios.patch("http://" + httpAddress + "/store/" + id, JSON.stringify(requestData), { 
             headers: { 
@@ -122,13 +129,33 @@ const UpdateForm = (props) => {
                 </Form.Group>
 
                 <FloatingLabel className="mb-3" controlId="selectYoutuber" label="유튜버">
-                    <Form.Select onChange={changeValue} name="youTuber" aria-label="Floating label select">
+                    <Form.Select onChange={changeValue} name="youTuber" value={boardFromYoutube.youTuber} aria-label="Floating label select">
                         <option value=''>어떤 유튜버인가요?</option>
                         <option value='성시경 SUNG SI KYUNG'>성시경 SUNG SI KYUNG</option>
                         <option value='먹보스 쭈엽이'>먹보스 쭈엽이</option>
                         <option value='김사원세끼'>김사원세끼</option>
                     </Form.Select>
                 </FloatingLabel>
+
+                <FloatingLabel className="mb-3" controlId="selectCategory" label="카테고리">
+                    <Form.Select onChange={changeValue} name="category" value={boardFromYoutube.category} aria-label="Floating label select">
+                        <option value=''>카테고리</option>
+                        <option value='koreanFood'>한식</option>
+                        <option value='chineseFood'>중식</option>
+                        <option value='japaneseFood'>일식</option>
+                        <option value='westernFood'>양식</option>
+                        <option value='etc'>기타</option>
+                    </Form.Select>
+                </FloatingLabel>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>해쉬 태그</Form.Label>
+                    <Form.Control  type="text" 
+                                   placeholder="태그(메뉴명, 지역명 등을 #지역, #맛집과 같은 형식으로 구분해서 입력해주세요)" 
+                                   onChange={changeValue} 
+                                   name="hashtag"
+                                   value={boardFromYoutube.hashtag || ''}/>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>영상 링크</Form.Label>

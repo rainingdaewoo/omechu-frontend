@@ -18,18 +18,24 @@ function App() {
     <Header />
      <Container>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/writeFromKakaoMap" element={<WriteFromKakaoMap />} />
-          <Route path="/loginForm" element={<LoginForm />} />
-          <Route path="/updateForm/:id" element={<UpdateForm />} />
-          <Route path="/youtubeContent/:id" element={<YoutubeContentDetail />} />
-          <Route path="/kakao" element={<KakaoMap />} />
-          <Route path="/myPage" element={<MyPage />} />
-          <Route path="/ListYoutubeContent" element={<ListYoutubeContent />} />
-          
-          <Route
-            path="/oauth2/redirect/:token"
-            element={<KakaoLoginRedirect />}
+          <Route path="/" 
+                 element={<Home />} />
+          <Route path="/writeFromKakaoMap" 
+                 element={<WriteFromKakaoMap />} />
+          <Route path="/loginForm" 
+                 element={<LoginForm />} />
+          <Route path="/updateForm/:id" 
+                 element={<UpdateForm />} />
+          <Route path="/youtubeContent/:id" 
+                 element={<YoutubeContentDetail />} />
+          <Route path="/kakao" 
+                 element={<KakaoMap />} />
+          <Route path="/myPage" 
+                 element={<MyPage />} />
+          <Route path="/ListYoutubeContent" 
+                 element={<ListYoutubeContent />} />
+          <Route path="/oauth2/redirect/:token"
+                 element={<KakaoLoginRedirect />}
           />
           <Route path="*" element={<div>에러 페이지</div>}></Route>
         </Routes>

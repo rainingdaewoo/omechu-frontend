@@ -3,47 +3,37 @@ import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import YoutubeContentItem from '../../components/YoutubeContentItem';
 import httpAddress from '../../data/httpAddress';
+import { useSelector } from 'react-redux';
 
 
 const ListYoutubeContent = () => {
 
-    const [youtubeContents, setYoutubeContents] = useState([]);
+    const stores = useSelector((state) => state.naverStore.value)
     const [last, setLast] = useState('');
 	const [page, setPage] = useState(0);
 
-    useEffect( () => {
-        axios.get(
-            "http://" + httpAddress + "/stores/",        
-            { headers: { 
-                Authorization: "Bearer " + localStorage.getItem("token"),
-                                "Content-Type": "application/json",
-                                },
-                })
-        .then( (result) => {
-            console.log(result.data);
-            setYoutubeContents(result.data);
-        })
-        .catch( (error) => {
-            console.log("fail");
-            console.log( error );
-        });
-    
-    }, []); 
+    useEffect(() => {
+        console.log(stores)
+    }, [stores]); 
 
     const prev = () =>{
-		setPage(page-1);
+		setPage(page - 1);
 	}
 
 	const next = () =>{
-		setPage(page+1);
+		setPage(page  + 1);
 	}
 
     return (
         <div>
             <h1>컨텐츠 리스트</h1>
-            {youtubeContents.map(youtubeContents => 
-                <YoutubeContentItem key={youtubeContents.id} youtubeContents={youtubeContents} 
-            />)}
+			{ Object.keys(stores).length > 0 ? 
+				stores.map(youtubeContents => 
+					<YoutubeContentItem key={youtubeContents.id} youtubeContents={youtubeContents} 
+				/>) 
+				:
+				null
+			}
 			<br />
 			<div className="d-flex justify-content-center">
 				<Pagination>
