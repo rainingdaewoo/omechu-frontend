@@ -52,7 +52,7 @@ const Header = () => {
     console.log(searchCategory);
    
     axios.get(
-      " https://cors-everywhere.herokuapp.com/http://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
+      "https://cors-everywhere.herokuapp.com/http://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
       { headers: { 
             "Content-Type": "application/json",
             },
