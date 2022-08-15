@@ -20,8 +20,6 @@ const UpdateForm = (props) => {
         storeAddress: "",
         youtubeContentId: "",
     });
-    const [store, setStore] = useState([]);
-    const [youtubeContents, setYoutubeContents] = useState([]);
     const [kakaoAddress, setKakaoAddress] = useState('');
 
     useEffect( () => {

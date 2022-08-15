@@ -1,8 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import YoutubeContentItem from '../../components/YoutubeContentItem';
-import httpAddress from '../../data/httpAddress';
 import { useSelector } from 'react-redux';
 
 
