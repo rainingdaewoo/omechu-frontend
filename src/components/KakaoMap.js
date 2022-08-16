@@ -10,7 +10,7 @@ const KakaoMap = () => {
     const stores = useSelector((state) => state.naverStore.value)
 
     useEffect(() => {
-        let mapContainer = document.getElementById('map'),          // 지도를 표시할 div 
+        let mapContainer = document.getElementById('map'),          // 지도를 표시할 div tt
 
         mapOption = {
             center: new kakao.maps.LatLng(37.5609532, 126.9789347), // 지도의 중심좌표(시청)

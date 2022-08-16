@@ -74,8 +74,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: omechu-front
-          environment_name: Omechufront-env
+          application_name: omechu-frontend
+          environment_name: Omechufrontend-env
           region: ap-northeast-2
           version_label: ${{github.SHA}}
           deployment_package: deploy.zip
