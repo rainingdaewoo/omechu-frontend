@@ -58,7 +58,6 @@ const Header = () => {
             },
         })
     .then( (result) => {
-      console.log(result.data);
       dispatch(setNaverStore(result.data));
     })
     .catch( (error) => {

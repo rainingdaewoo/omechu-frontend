@@ -11,7 +11,6 @@ const ListYoutubeContent = () => {
 	const [page, setPage] = useState(0);
 
     useEffect(() => {
-        console.log(stores)
     }, [stores]); 
 
     const prev = () =>{
