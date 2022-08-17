@@ -75,7 +75,7 @@ const UpdateForm = (props) => {
             storeAddress: kakaoAddress};
 
         console.log(requestData);    
-        axios.patch("http://" + httpAddress + "/store/" + id, JSON.stringify(requestData), { 
+        axios.patch(httpAddress + "/store/" + id, JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",

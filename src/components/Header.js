@@ -52,7 +52,7 @@ const Header = () => {
     console.log(searchCategory);
    
     axios.get(
-      "https://" + httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
+       httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
       { headers: { 
             "Content-Type": "application/json",
             },

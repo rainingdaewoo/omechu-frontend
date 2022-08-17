@@ -34,7 +34,7 @@ const WriteFromKakaoMap = (props) => {
         let requestData = {...boardFromYoutube, 
                            storeAddress: kakaoAddress};
 
-        axios.post("http://" + httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
+        axios.post(httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                "Content-Type": "application/json",
