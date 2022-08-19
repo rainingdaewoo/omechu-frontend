@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import jwt_decode  from 'jwt-decode'
 import axios from 'axios';
 import httpAddress from '../../data/httpAddress';
 
 
 const YoutubeContentDetail = (props) => {
     const propsParam = useParams();
-    const id = propsParam.id;
+    const storeId = propsParam.id;
 
     const [store, setStore] = useState([]);
     const [youtubeContents, setYoutubeContents] = useState([]);
@@ -15,7 +16,7 @@ const YoutubeContentDetail = (props) => {
     useEffect( () => {
 
         axios.get(
-            httpAddress + "/store/" + id,        
+            httpAddress + "/store/" + storeId,        
             { headers: { 
                 "Content-Type": "application/json",
                 },
@@ -32,11 +33,11 @@ const YoutubeContentDetail = (props) => {
        
     }, [])
 
-    const deleteUser = () => {
+    const deleteStore = () => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
 
             axios.delete(
-                "http://" + httpAddress + "/store/" + id,        
+                "http://" + httpAddress + "/store/" + storeId,        
                 { headers: { 
                     Authorization: "Bearer " + localStorage.getItem("token"),
                                     "Content-Type": "application/json",
@@ -56,6 +57,27 @@ const YoutubeContentDetail = (props) => {
           }
     };
 
+    const likeStore = () => {
+        console.log(jwt_decode ("Bearer " +localStorage.getItem("token")));
+        axios.post(
+            httpAddress + "/like/" + storeId, JSON.stringify(), { 
+                headers: { 
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                                   "Content-Type": "application/json",
+                    },
+                })
+            .then( (result) => {
+                    window.location.href = "/";
+            })
+            .catch( (error) => {
+                console.log(error);
+                if( error.response.data.message === "잘못된 요청입니다."){
+                    alert("필수 값이 빠졌습니다. 다시 확인해주세요.");
+                }
+            });;
+      
+    };
+
     return (
         <div>
             <h1>상세보기</h1>
@@ -68,11 +90,12 @@ const YoutubeContentDetail = (props) => {
                 <img src={youtubeContents.imageURL}/>
             </a>
             <br /> <br />
-            <Link to={`/updateForm/${id}`}>
+            <Link to={`/updateForm/${storeId}`}>
                 <Button>수정</Button>
             </Link>
             {" "}
-            <Button onClick={ deleteUser }>삭제</Button>
+            <Button onClick={ deleteStore }>삭제</Button>
+            <Button onClick={ likeStore }>좋아요</Button>
         </div>
     );
 };

@@ -25,7 +25,7 @@ const UpdateForm = (props) => {
     useEffect( () => {
 
         axios.get(
-            "http://" + httpAddress + "/store/" + id,        
+            httpAddress + "/store/" + id,        
             { headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                 "Content-Type": "application/json",

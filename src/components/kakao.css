@@ -2,6 +2,7 @@
     position: relative;
     bottom: 0px;
     border-radius: 6px;
+    background:#fff; 
     border: 1px solid #ccc;
     border-bottom: 2px solid #ddd;
     float: left;
@@ -16,8 +17,6 @@
     font-size: 14px;
     font-weight: bold;
     overflow: hidden;
-    background:#fff
-    
 }
 
 .customoverlay .title {
@@ -28,4 +27,12 @@
     border-radius: 6px;
     font-size: 16px;
     overflow: hidden;
+}
+
+.customoverlay .closeButton {
+    float: right;
+}
+
+.customoverlay .storeInfo a {
+    display: inline;
 }
