@@ -34,14 +34,14 @@ const WriteFromKakaoMap = (props) => {
         let requestData = {...boardFromYoutube, 
                            storeAddress: kakaoAddress};
 
-        axios.post(httpAddress + "/youtubeContent/", JSON.stringify(requestData), { 
+        axios.post(httpAddress + "/api/admin/youtubeContent/", JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                "Content-Type": "application/json",
                 },
             })
             .then( (result) => {
-                    window.location.href = "/";
+                window.location.href = "/";
             })
             .catch( (error) => {
                 console.log(error);

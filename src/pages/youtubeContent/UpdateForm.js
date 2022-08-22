@@ -25,7 +25,7 @@ const UpdateForm = (props) => {
     useEffect( () => {
 
         axios.get(
-            httpAddress + "/store/" + id,        
+            httpAddress + "/api/admin/store/" + id,        
             { headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                 "Content-Type": "application/json",
@@ -72,10 +72,9 @@ const UpdateForm = (props) => {
         e.preventDefault(); 
 
         let requestData = {...boardFromYoutube, 
-            storeAddress: kakaoAddress};
+                           storeAddress: kakaoAddress};
 
-        console.log(requestData);    
-        axios.patch(httpAddress + "/store/" + id, JSON.stringify(requestData), { 
+        axios.patch(httpAddress + "/api/admin/store/" + id, JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",
@@ -91,9 +90,6 @@ const UpdateForm = (props) => {
                     alert("필수 값이 빠졌습니다. 다시 확인해주세요.");
                 }
         });;        
-
-
-
     }
 
     const handleComplete = (data) => {

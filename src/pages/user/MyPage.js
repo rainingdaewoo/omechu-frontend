@@ -15,7 +15,7 @@ const MyPage = () => {
     useEffect(() => {
         const token = jwt_decode (localStorage.getItem("token"));
         axios.get(
-            httpAddress + "/user/" + token.id,
+            httpAddress + "/api/user/user/" + token.id,
             { headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                 "Content-Type": "application/json",

@@ -1,17 +1,18 @@
 import React, { useEffect} from 'react';
 import styled from "styled-components";
 import jwt_decode  from 'jwt-decode'
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import "./kakao.css"
+import httpAddress from '../data/httpAddress';
 
 const { kakao } = window;
 
 const KakaoMap = () => {
-
     const stores = useSelector((state) => state.naverStore.value)
 
     useEffect(() => {
-        let mapContainer = document.getElementById('map'),          // 지도를 표시할 div tt
+        let mapContainer = document.getElementById('map'),          // 지도를 표시할 div 
 
         mapOption = {
             center: new kakao.maps.LatLng(37.5609532, 126.9789347), // 지도의 중심좌표(시청)
@@ -50,9 +51,14 @@ const KakaoMap = () => {
                             title : store.storeName,          // 마커 타이틀, 마커에 마우스를 올리면 타이틀이 표시
                             image : markerImage               // 마커 이미지
                         });
-
-                        if(store.likes.length != 0) {
-                            console.log(store.likes.Map)
+                        let likeConditon = false;
+                        
+                        if(store.likes.length != 0 && localStorage.getItem("token") != null) {
+                            store.likes.forEach( likes => {
+                                if(likes.userId === jwt_decode ("Bearer " +localStorage.getItem("token")).id) { // like 리스트 중 토큰에 저장된 내 회원 ID와 같으면 좋아요 아이콘
+                                    likeConditon = true;
+                                }
+                            })
                         }
                         // content 부분에는 string 타입만을 받기 때문에 컴포넌트가 들어갈 수 없음. 
                         // 따라서 번거롭지만 다음과 같이 커스텀 오버레이를 작성해야함.
@@ -95,12 +101,9 @@ const KakaoMap = () => {
                         closeButton.setAttribute("height", "20");
                         content.appendChild(closeButton);
 
-
                         var info = document.createElement('div');
                         info.className = 'info';
 
-                        
-                        
                         var title = document.createElement('div');
                         title.className = 'title';
                         info.appendChild(title);
@@ -108,20 +111,22 @@ const KakaoMap = () => {
                             var title_a = document.createElement('a');
                             title_a.appendChild(document.createTextNode("       "+ store.storeName));
                                 var likeImg = document.createElement('img');
-                                likeImg.setAttribute("src", "/unlike.png");
+                                if(likeConditon === false) {
+                                    likeImg.setAttribute("src", "/unlike.png");
+                                } else {
+                                    likeImg.setAttribute("src", "/like.png");
+                                }
                                 likeImg.setAttribute("width", "24");
                                 likeImg.setAttribute("height", "24");
+                                likeImg.onclick = function() {
+                                    if(likeConditon === false) {
+                                        likeStore(store.id);
+                                    } else {
+                                        likeStoreCancel(store.id);
+                                    }
+                                 };
                                 title_a.appendChild(likeImg);
-                                // var closeButton = document.createElement('img');
-
-                                // closeButton.onclick = function() {
-                                //     clickedOverlay.setMap(null);
-                                //  };
-                                // closeButton.setAttribute("src", "/closeButton.png");
-                                // closeButton.setAttribute("float", "right");
-                                // closeButton.setAttribute("width", "24");
-                                // closeButton.setAttribute("height", "24");
-                                // title_a.appendChild(closeButton);
+                                
                             title.appendChild(title_a);
 
                         var body = document.createElement('div');
@@ -160,10 +165,7 @@ const KakaoMap = () => {
                                 storeInfo.appendChild(storeInfo_a2);
                             body.appendChild(storeInfo);
 
-
-
                         content.appendChild(info);
- 
                         
                         kakao.maps.event.addListener(marker, 'click', function() { //  마커 클릭 시 이벤트
 
@@ -197,6 +199,50 @@ const KakaoMap = () => {
             });
         }
     }, [stores]);
+
+    const likeStore = (storeId) => {
+
+        if(localStorage.getItem("token") === null) {
+            alert("좋아요 기능은 로그인이 필요합니다! ");
+            document.location.href = "/loginForm";
+        }
+
+        axios.post(
+            httpAddress + "/api/user/like/" + storeId, JSON.stringify(), { 
+                headers: { 
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                                   "Content-Type": "application/json",
+                    },
+                })
+            .then( (result) => {
+                window.location.href = "/";
+            })
+            .catch( (error) => {
+                console.log(error);
+            });;
+    };
+
+    const likeStoreCancel = (storeId) => {
+
+        if(localStorage.getItem("token") === null) {
+            alert("로그인 후 다시 이용해보시겠어요? ");
+            document.location.href = "/loginForm";
+        }
+
+        axios.delete(
+            httpAddress + "/api/user/like/" + storeId, { 
+                headers: { 
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                                   "Content-Type": "application/json",
+                    },
+                })
+            .then( (result) => {
+                window.location.href = "/"; 
+            })
+            .catch( (error) => {
+                console.log(error);
+            });;
+    };
 
     return (
         <>

@@ -48,17 +48,13 @@ const Header = () => {
 }
 
   const search = (e) => {
-    console.log(keyword);
-    console.log(searchCategory);
-   
     axios.get(
-       httpAddress + "/stores/test?keyword=" + keyword + "&category=" + searchCategory,        
+       httpAddress + "/stores?keyword=" + keyword + "&category=" + searchCategory,        
       { headers: { 
             "Content-Type": "application/json",
             },
         })
     .then( (result) => {
-      console.log(result.data)
       dispatch(setNaverStore(result.data));
     })
     .catch( (error) => {
