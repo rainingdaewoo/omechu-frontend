@@ -16,9 +16,10 @@ const YoutubeContentDetail = (props) => {
     useEffect( () => {
 
         axios.get(
-            httpAddress + "/store/" + storeId,        
+            httpAddress + "/api/admin/store/" + storeId,        
             { headers: { 
-                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+                                   "Content-Type": "application/json",
                 },
             })
         .then( (result) => {

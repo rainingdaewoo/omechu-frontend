@@ -34,7 +34,7 @@ const ListYoutubeContent = () => {
 			<br />
 			<div className="d-flex justify-content-center">
 				<Pagination>
-					{page === 0 ? 
+					{page === 1 ? 
 						<Pagination.Item onClick={prev} disabled>Prev</Pagination.Item> : 
 						<Pagination.Item onClick={prev}>Prev</Pagination.Item>}
 					{last === true ? 

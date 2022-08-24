@@ -55,7 +55,7 @@ const KakaoMap = () => {
                         
                         if(store.likes.length != 0 && localStorage.getItem("token") != null) {
                             store.likes.forEach( likes => {
-                                if(likes.userId === jwt_decode ("Bearer " +localStorage.getItem("token")).id) { // like 리스트 중 토큰에 저장된 내 회원 ID와 같으면 좋아요 아이콘
+                                if(likes.userId === jwt_decode("Bearer " +localStorage.getItem("token")).id) { // like 리스트 중 토큰에 저장된 내 회원 ID와 같으면 좋아요 아이콘
                                     likeConditon = true;
                                 }
                             })

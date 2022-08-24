@@ -7,10 +7,12 @@ import UpdateForm from './pages/youtubeContent/UpdateForm';
 import LoginForm from './pages/user/LoginForm';
 import KakaoLoginRedirect from './pages/user/KakaoLoginRedirect';
 import MyPage from './pages/user/MyPage';
-import KakaoMap from './components/KakaoMap';
 import WriteFromKakaoMap from './pages/youtubeContent/WriteFromKakaoMap';
 import ListYoutubeContent from './pages/youtubeContent/ListYoutubeContent';
 import YoutubeContentDetail from './pages/youtubeContent/YoutubeContentDetail';
+import Request from './pages/board/Request';
+import WriteRequest from './pages/board/WriteRequest';
+import RequestDetail from './pages/board/RequestDetail';
 
 function App() {
   return (
@@ -28,12 +30,16 @@ function App() {
                  element={<UpdateForm />} />
           <Route path="/youtubeContent/:id" 
                  element={<YoutubeContentDetail />} />
-          <Route path="/kakao" 
-                 element={<KakaoMap />} />
           <Route path="/myPage" 
                  element={<MyPage />} />
-          <Route path="/ListYoutubeContent" 
+          <Route path="/listYoutubeContent" 
                  element={<ListYoutubeContent />} />
+           <Route path="/request" 
+                 element={<Request />} />
+          <Route path="/request/:id" 
+                 element={<RequestDetail />} />
+          <Route path="/writeRequest" 
+                 element={<WriteRequest />} />        
           <Route path="/oauth2/redirect/:token"
                  element={<KakaoLoginRedirect />}
           />

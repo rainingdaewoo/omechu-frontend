@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
+import jwt_decode  from 'jwt-decode'
 import { Button, Container, Form, FormControl, Navbar, Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -19,6 +20,7 @@ const CATEGORY = [
 
 const Header = () => {
   const [loginCheck, setLoginCheck] = useState('');
+  const [authorityCheck, setAuthorityCheck] = useState(false);
   const [searchCategory, setSearchCategory] = useState('');
   const [keyword, setKeyword] = useState('');
   const dispatch = useDispatch()
@@ -63,13 +65,34 @@ const Header = () => {
     });
   }  
 
-    
+  const findByYoutuberName = (youtuber) => {
+    console.log(youtuber);
+    axios.get(
+      httpAddress + "/stores?keyword=" + youtuber,        
+     { headers: { 
+           "Content-Type": "application/json",
+           },
+       })
+   .then( (result) => {
+     dispatch(setNaverStore(result.data));
+   })
+   .catch( (error) => {
+       console.log("fail");
+       console.log( error );
+   });
+  }  
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
       setLoginCheck(true);
     } else {
       setLoginCheck(false);
+    }
+
+    if(localStorage.getItem("token") !== null && jwt_decode("Bearer " +localStorage.getItem("token")).roleType === "ROLE_ADMIN") {
+      setAuthorityCheck(true);
+    } else {
+      setAuthorityCheck(false);
     }
   }, []);    
         
@@ -99,22 +122,24 @@ const Header = () => {
             </Offcanvas.Title>
           </Offcanvas.Header>
             <Offcanvas.Body>
+            <ul>
               {youtuberData.map((youtuberData) => {
                  return (
-                   <ul key={youtuberData.id}>
-                    <li>
+                    <li key={youtuberData.id} onClick={() => {
+                      findByYoutuberName(youtuberData.youtuber);
+                    }}>
                       <a>
                         <img 
                           style={{ height: 24, width: 24 }} 
                           src= {youtuberData.profileImgUrl} 
                         />
-                        {youtuberData.youtuber}
+                        {" " + youtuberData.youtuber}
                       </a>
                     </li>
-                  </ul>);
+                  );
                 })
-                
-                }
+              }
+              </ul>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
           
@@ -128,7 +153,7 @@ const Header = () => {
             style={{ width: 110, padding: 3 }}
           >
             {CATEGORY.map((category) => {
-              return <option key={category.id} value={category.value}> {category.name} </option>
+              return <option key={category.id} value={category.value} > {category.name} </option>
             })}
           </select>
 
@@ -147,7 +172,10 @@ const Header = () => {
           <Button variant="outline-success" onClick={search}>Search</Button>
 
         </Form>
-          <div>             
+          <div>
+            <Link to="/request" 
+                       className="nav-link" 
+                       style={{ color: "white", float: "left" }}>요청</Link>             
             { loginCheck ? 
                 (<Link to="/myPage" 
                        className="nav-link" 
@@ -158,13 +186,17 @@ const Header = () => {
                        className="nav-link" 
                        style= {{ color: "white", float: "left" }}>로그인</Link>)
             }
-             <Link to="/ListYoutubeContent" 
-                  className="nav-link" 
-                  style={{ color: "white", float: "right" }}>게시글 리스트</Link>      
-            <Link to="/writeFromKakaoMap" 
-                  className="nav-link" 
-                  style={{ color: "white", float: "right" }}>맛집 추가</Link>
-           
+            { authorityCheck ? 
+              (<>
+                <Link to="/listYoutubeContent" 
+                      className="nav-link" 
+                      style={{ color: "white", float: "right" }}>게시글 리스트</Link>      
+                <Link to="/writeFromKakaoMap" 
+                      className="nav-link" 
+                      style={{ color: "white", float: "right" }}>맛집 추가</Link>
+              </>) 
+              : null
+            }
           </div>  
           </Container>
         </Navbar>
