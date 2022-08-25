@@ -13,6 +13,7 @@ import YoutubeContentDetail from './pages/youtubeContent/YoutubeContentDetail';
 import Request from './pages/board/Request';
 import WriteRequest from './pages/board/WriteRequest';
 import RequestDetail from './pages/board/RequestDetail';
+import UpdateRequestForm from './pages/board/UpdateRequestForm';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
                  element={<Request />} />
           <Route path="/request/:id" 
                  element={<RequestDetail />} />
+          <Route path="/updateRequestForm/:id" 
+                 element={<UpdateRequestForm />} />
           <Route path="/writeRequest" 
                  element={<WriteRequest />} />        
           <Route path="/oauth2/redirect/:token"

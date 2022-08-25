@@ -20,10 +20,12 @@ const RequestItem = ({request}) => {
                 <Card.Title>{request.title}</Card.Title>
                 <Card.Text className="text-right">
                     {dateAndTime}
+                    <br />
+                    {request.username}
                 </Card.Text>
                 
                 <br/>
-                <Link to={"/request/" + request.id} className="btn btn-primary">
+                <Link to={"/request/" + request.requestId} className="btn btn-primary">
                     상세보기
                 </Link>
             </Card.Body>

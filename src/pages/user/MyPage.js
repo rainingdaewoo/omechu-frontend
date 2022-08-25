@@ -13,7 +13,7 @@ const MyPage = () => {
     });
 
     useEffect(() => {
-        const token = jwt_decode (localStorage.getItem("token"));
+        const token = jwt_decode(localStorage.getItem("token"));
         axios.get(
             httpAddress + "/api/user/user/" + token.id,
             { headers: { 
@@ -35,11 +35,12 @@ const MyPage = () => {
 
 
     return (
-        <div>
+        <div className="d-flex justify-content-center">
+            <br/>
+            <br/>
+            <br/>
             { userDetail.username }님 안녕하세요!!<br/>
             오늘도 맛있는 한끼되세요!!
-
-            
         </div>
     );
 };

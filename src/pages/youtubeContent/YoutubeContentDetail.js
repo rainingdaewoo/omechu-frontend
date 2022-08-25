@@ -37,7 +37,7 @@ const YoutubeContentDetail = (props) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
 
             axios.delete(
-                "http://" + httpAddress + "/api/admin/store/" + storeId,        
+                httpAddress + "/api/admin/store/" + storeId,        
                 { headers: { 
                     Authorization: "Bearer " + localStorage.getItem("token"),
                                     "Content-Type": "application/json",
