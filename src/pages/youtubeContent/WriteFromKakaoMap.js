@@ -34,7 +34,7 @@ const WriteFromKakaoMap = (props) => {
         let requestData = {...boardFromYoutube, 
                            storeAddress: kakaoAddress};
 
-        axios.post(httpAddress + "/api/admin/youtubeContent/", JSON.stringify(requestData), { 
+        axios.post(httpAddress + "/api/admin/store/", JSON.stringify(requestData), { 
             headers: { 
                 Authorization: "Bearer " + localStorage.getItem("token"),
                                "Content-Type": "application/json",
@@ -44,9 +44,17 @@ const WriteFromKakaoMap = (props) => {
                 window.location.href = "/";
             })
             .catch( (error) => {
-                console.log(error);
+                console.log(error.response.data.validation);
                 if( error.response.data.message === "잘못된 요청입니다."){
-                    alert("필수 값이 빠졌습니다. 다시 확인해주세요.");
+                    let validation = error.response.data.validation;
+
+                    if(Object.keys(validation).length > 1) { // 2개 이상 빠진 항목이 있을 때
+                        alert("빠진 내용이 있나 확인해주세요");
+                    } else{                                 //1개만 빠졌을 때    
+                        alert(validation[(Object.keys(error.response.data.validation))]);   
+                    }
+                    
+                    
                 }
             });;
     }
