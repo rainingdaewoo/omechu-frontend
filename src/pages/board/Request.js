@@ -54,7 +54,6 @@ const Request = () => {
                 },
             })
         .then( (result) => {
-            console.log(result.data);
             setRequest(result.data.content);
             setLast(result.data.last);
             setTotalPage(result.data.totalPages);
