@@ -10,11 +10,11 @@
 > Java Script, React, JSX, react-router-dom, Redux Toolkit, Bootstrap, axios, styled-components,
 
 - React
-  - Vue나 Angular가 아닌 React를 쓴 이유
+  - 가장 커뮤니티가 잘 활성화되어 있고, 자료 수집이 용이하기 때문에 리액트를 선택했습니다.
 - Redux Toolkit
-  - Redux가 아닌 Redux Toolkit을 쓴 이유
+  - 리듀서, 액션타입, 액션 생성함수, 초기상태를 하나의 함수로 편하게 선언할 수 있고, 불변성을 유지하기 위하여 번거로운 코드들을 작성하지 않고 자동으로 업데이트 때문에 Redux Toolkit을 사용했습니다.
 - axios
-  - axios 쓴 이유
+  - 비동기로 HTTP 통신을 할 수 있으며, response 데이터를 다루기 쉽기 때문에 axios를 사용했습니다.
 
 ### 회원 가입
 
@@ -27,6 +27,8 @@
 ![오메추 - 검색(수정)](https://user-images.githubusercontent.com/78574530/187129517-619333f9-55bc-4a37-ba15-03b6929b2ab5.gif)
 
 ### 요청 게시판 작성
+
+![오메추 - 게시판 작성(수정)](https://user-images.githubusercontent.com/78574530/187353253-0872ddd6-7779-4cae-bf61-ce0af27e8afc.gif)
 
 ### 좋아요
 

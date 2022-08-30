@@ -47,7 +47,7 @@ const Header = () => {
       search();
       e.preventDefault();
     }
-}
+  }
 
   const search = (e) => {
     axios.get(
@@ -66,7 +66,6 @@ const Header = () => {
   }  
 
   const findByYoutuberName = (youtuber) => {
-    console.log(youtuber);
     axios.get(
       httpAddress + "/stores?keyword=" + youtuber,        
      { headers: { 
