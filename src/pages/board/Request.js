@@ -109,7 +109,7 @@ const Request = () => {
 
             <InputGroup className="mb-3">
                 <Form.Control
-                    placeholder="게시판 제목, 내용, 글쓴이를 검색해보세요"
+                    placeholder="게시판 제목, 내용, 글쓴이를 검색해보세요."
                     aria-label="요청 게시판 검색"
                     aria-describedby="basic-addon2"
                     onChange={changeValue}
