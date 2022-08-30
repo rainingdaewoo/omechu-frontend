@@ -21,7 +21,6 @@ const KakaoLoginRedirect = () => {
       localStorage.setItem("token", params.token);
       window.location.replace("/");
     }
-    
   }, []);
 
   const changeValue = (e) => {
