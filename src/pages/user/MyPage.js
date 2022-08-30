@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode  from 'jwt-decode'
 import httpAddress from '../../data/httpAddress';
+import { Button } from 'react-bootstrap';
 
 
 const MyPage = () => {
@@ -39,7 +40,7 @@ const MyPage = () => {
             <br/>
             <br/>
             <br/>
-            { userDetail.username }님 안녕하세요!!<br/>
+            { userDetail.nickname }님 안녕하세요!!<br/>
             오늘도 맛있는 한끼되세요!!
         </div>
     );

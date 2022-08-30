@@ -21,7 +21,7 @@ const RequestItem = ({request}) => {
                 <Card.Text className="text-right">
                     {dateAndTime}
                     <br />
-                    {request.username}
+                    {request.nickname}
                 </Card.Text>
                 
                 <br/>

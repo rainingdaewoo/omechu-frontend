@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Form, FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { Button, Form,  InputGroup, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import RequestItem from '../../components/RequestItem';
 import { useDispatch } from 'react-redux';
@@ -54,6 +54,7 @@ const Request = () => {
                 },
             })
         .then( (result) => {
+            console.log(result.data);
             setRequest(result.data.content);
             setLast(result.data.last);
             setTotalPage(result.data.totalPages);
