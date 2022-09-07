@@ -68,12 +68,14 @@ const KakaoLoginRedirect = () => {
     
     axios.patch(httpAddress + "/api/user/checkNickname/" + token.id, JSON.stringify(userData), { 
         headers: { 
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: "Bearer " + params.token,
                            "Content-Type": "application/json",
             },
         })
         .then( (result) => {
-            console.log(result);
+          localStorage.clear();
+          localStorage.setItem("token", params.token);
+          window.location.replace("/");
         })
         .catch( (error) => {
             console.log(error);

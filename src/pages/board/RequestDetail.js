@@ -31,8 +31,10 @@ const RequestDetail = (props) => {
                 },
             })
         .then( (result) => {
-            
-            if( result.data.username === jwt_decode(localStorage.getItem("token")).username) {
+            console.log(result.data.nickname)
+            console.log(jwt_decode(localStorage.getItem("token")).nickname)
+            if( result.data.nickname === jwt_decode(localStorage.getItem("token")).nickname) {
+                console.log("확인")
                 setIsMyPost(true);
             }
             setRequestDetail(result.data);
@@ -90,7 +92,7 @@ const RequestDetail = (props) => {
             { isMyPost ?
             <>
             <Link to={`/updateRequestForm/${requestId}`}>
-            <Button>수정</Button>
+                <Button>수정</Button>
             </Link>
             {" "}
             <Button onClick={ deleteRequest }>삭제</Button>
